@@ -2,6 +2,8 @@ var gulp = require('gulp'),
     jade = require('gulp-jade'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
+    jshint = require('gulp-jshint'),
+    stylish = require('jshint-stylish'),
     streamify = require('gulp-streamify'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
@@ -45,9 +47,16 @@ gulp.task('js', function() {
     .pipe(connect.reload());
 });
 
+gulp.task('lint', function() {
+    gulp.src('./src/js/**/*.js')
+      .pipe(jshint('.jshintrc'))
+      .pipe(jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
   gulp.watch('src/js/**/*.js', ['js']);
+  gulp.watch('src/js/**/*.js', ['lint']);
   gulp.watch('src/sass/**/*.scss', ['sass']);
 });
 
@@ -59,4 +68,4 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('default', ['jade', 'js', 'sass', 'watch', 'connect']);
+gulp.task('default', ['jade', 'js', 'sass', 'watch', 'lint', 'connect']);
