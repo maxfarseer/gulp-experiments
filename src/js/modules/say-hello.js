@@ -1,5 +1,9 @@
 'use strict';
 
-module.exports = function(name) {
-  console.log('Greetings, ' + name);
+var talker = {};
+
+talker.greetings = function(name) {
+  return 'Greetings, ' + name;
 };
+
+module.exports = talker;

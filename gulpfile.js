@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     connect = require('gulp-connect'),
+    jasmine = require('gulp-jasmine'),
     gulpif = require('gulp-if');
 
 var outputDir = 'builds/development',
@@ -53,11 +54,19 @@ gulp.task('lint', function() {
       .pipe(jshint.reporter('jshint-stylish'));
 });
 
+// Test JS
+gulp.task('jasmine', function () {
+  return gulp.src('tests/*.js')
+      .pipe(jasmine());
+});
+
 gulp.task('watch', function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
   gulp.watch('src/js/**/*.js', ['js']);
   gulp.watch('src/js/**/*.js', ['lint']);
+  gulp.watch('src/js/**/*.js', ['jasmine']);
   gulp.watch('src/sass/**/*.scss', ['sass']);
+  gulp.watch('tests/*.js', ['jasmine']);
 });
 
 gulp.task('connect', function() {
@@ -68,4 +77,4 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('default', ['jade', 'js', 'sass', 'watch', 'lint', 'connect']);
+gulp.task('default', ['jade', 'js', 'sass', 'watch', 'lint', 'jasmine', 'connect']);
