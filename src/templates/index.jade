@@ -1,12 +1,13 @@
 doctype html
-html
+html(ng-app="offlined")
   head
     title Gulp experiments
     link(rel="stylesheet", href="css/main.css")
   body
-    h1 We used Jade/SASS to generate this
-    p It seems like it works ;)
-    p liveReload works fine! Hurray!
-    p jshint added
+
+    div.container
+      header
+      div(ui-view)
+      footer
 
     script(src="js/bundle.js")

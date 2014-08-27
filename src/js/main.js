@@ -1,5 +1,41 @@
 'use strict';
 
-var sayHello = require('./modules/say-hello');
+var sayHello = require('./modules/say-hello'),
+    $ = require('jquery'),
+    angular = require('angular'),
+    uiRouter = require('angular-ui-router'),
+    ngResource = require('npm-angular-resource')(window,angular),
+    mainCtrl = require('./controllers/mainCtrl'),
+    rest = require('./services/rest');
 
-sayHello('Max P.');
+//sayHello.greetings('Max P.');
+console.log(ngResource);
+
+var app = angular.module('offlined', ['ngResource', uiRouter, rest]);
+
+// from asker
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/home');
+
+  $stateProvider
+    .state('home', {
+        url: '/home',
+        templateUrl: '/js/views/home/home.html',
+        controller: 'mainCtrl'
+    })
+    .state('step-100-choose-friends', {
+        url: '/step-100-choose-friends',
+        templateUrl: '/js/views/steps/step-100-choose-friends.html',
+        controller: 'Step100Ctrl'
+    });
+}]);
+
+app.run(['$rootScope','$rest', function ($rootScope, $rest) {
+  $rootScope.$rest = $rest;
+  $rootScope.root = $rootScope;
+}]);
+
+app.controller('mainCtrl', ['$scope', mainCtrl]);
+
+$('button').html('hello jQ ready');

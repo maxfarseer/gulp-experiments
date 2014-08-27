@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     connect = require('gulp-connect'),
     jasmine = require('gulp-jasmine'),
+    gulpIgnore = require('gulp-ignore'), //for bower, оставить? - sample .pipe(gulpIgnore.include(bowerDir))
     gulpif = require('gulp-if');
 
 var outputDir = 'builds/development',
@@ -21,6 +22,13 @@ gulp.task('jade', function() {
     .pipe(connect.reload());
 });
 
+gulp.task('jadeAngularTmpl', function() {
+  return gulp.src('src/js/views/**/*.jade')
+    .pipe(jade())
+    .pipe(gulp.dest(outputDir+'/js/views/'))
+    .pipe(connect.reload());
+});
+
 gulp.task('sass', function() {
   var config = {};
 
@@ -29,8 +37,9 @@ gulp.task('sass', function() {
   };
 
   if (env === 'development') {
-    config.sourceComments = 'map';
-    config.sourceMap = 'sass'
+      config.onError = function(e) { console.log(e); }
+      config.sourceMap = 'sass';
+      //config.sourceComments = 'map';
   };
 
   return gulp.src('src/sass/main.scss')
@@ -40,10 +49,23 @@ gulp.task('sass', function() {
 });
 
 gulp.task('js', function() {
-  return browserify('./src/js/main.js')
-    .bundle()
+
+  var b = new browserify({
+    debug:true
+  });
+
+  b.add('./src/js/main.js');
+
+  b.plugin('minifyify', {
+    map: '/bundle.map.json',
+    minify: true,
+    output: outputDir+'/bundle.map.json'
+  });
+
+  //return b()
+  return b.bundle()
     .pipe(source('bundle.js'))
-    .pipe(streamify(uglify()))
+    //.pipe(streamify(uglify()))
     .pipe(gulp.dest(outputDir + '/js'))
     .pipe(connect.reload());
 });
@@ -62,6 +84,7 @@ gulp.task('jasmine', function () {
 
 gulp.task('watch', function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
+  gulp.watch('src/js/views/**/*.jade', ['jadeAngularTmpl']);
   gulp.watch('src/js/**/*.js', ['js']);
   gulp.watch('src/js/**/*.js', ['lint']);
   gulp.watch('src/js/**/*.js', ['jasmine']);
@@ -77,4 +100,4 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('default', ['jade', 'js', 'sass', 'watch', 'lint', 'jasmine', 'connect']);
+gulp.task('default', ['jade', 'jadeAngularTmpl', 'js', 'sass', 'watch', 'lint', 'jasmine', 'connect']);
