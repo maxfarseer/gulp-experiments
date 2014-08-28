@@ -1,11 +1,12 @@
 var gulp = require('gulp'),
     jade = require('gulp-jade'),
     sass = require('gulp-sass'),
-    uglify = require('gulp-uglify'),
+    //uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     stylish = require('jshint-stylish'),
     streamify = require('gulp-streamify'),
     browserify = require('browserify'),
+    watchify = require('watchify'),
     source = require('vinyl-source-stream'),
     connect = require('gulp-connect'),
     jasmine = require('gulp-jasmine'),
@@ -57,9 +58,9 @@ gulp.task('js', function() {
   b.add('./src/js/main.js');
 
   b.plugin('minifyify', {
-    map: '/bundle.map.json',
+    map: '/bundle.map',
     minify: true,
-    output: outputDir+'/bundle.map.json'
+    output: outputDir+'/bundle.map'
   });
 
   //return b()

@@ -8,9 +8,10 @@ var mainCtrl = function($scope) {
   }
 
   $scope.loadScorch = function() {
-    debugger;
     $scope.$rest.commentqqators.load({}).$promise.then(next);
   };
+
+  console.log('mainCtrl loaded');
 
 };
 

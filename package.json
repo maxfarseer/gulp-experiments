@@ -22,7 +22,8 @@
     "angular": "^1.2.21",
     "angular-ui-router": "^0.2.10",
     "npm-angular-resource": "^1.3.0-build.2880",
-    "minifyify": "^4.1.1"
+    "minifyify": "^4.1.1",
+    "watchify": "^1.0.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
