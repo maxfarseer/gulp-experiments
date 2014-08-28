@@ -1,6 +1,7 @@
 {
   "node": true,
   "browser": true,
+  "browserify": true,
   "esnext": true,
   "bitwise": true,
   "camelcase": false,

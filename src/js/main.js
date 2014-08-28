@@ -8,8 +8,7 @@ var sayHello = require('./modules/say-hello'),
     mainCtrl = require('./controllers/mainCtrl'),
     rest = require('./services/rest');
 
-//sayHello.greetings('Max P.');
-console.log(ngResource);
+console.log(sayHello.greetings('Max P.'));
 
 var app = angular.module('offlined', ['ngResource', uiRouter, rest]);
 
@@ -38,4 +37,4 @@ app.run(['$rootScope','$rest', function ($rootScope, $rest) {
 
 app.controller('mainCtrl', ['$scope', mainCtrl]);
 
-$('button').html('hello jQ ready');
+//console.log('FIRE FIRE FIRE' + $);

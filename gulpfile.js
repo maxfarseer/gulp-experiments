@@ -1,17 +1,15 @@
+'use strict';
+
 var gulp = require('gulp'),
+    //watch = require('gulp-watch'),
     jade = require('gulp-jade'),
     sass = require('gulp-sass'),
-    //uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    stylish = require('jshint-stylish'),
-    streamify = require('gulp-streamify'),
     browserify = require('browserify'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream'),
     connect = require('gulp-connect'),
-    jasmine = require('gulp-jasmine'),
-    gulpIgnore = require('gulp-ignore'), //for bower, оставить? - sample .pipe(gulpIgnore.include(bowerDir))
-    gulpif = require('gulp-if');
+    jasmine = require('gulp-jasmine');
 
 var outputDir = 'builds/development',
     env = process.env.NODE_ENV || 'development';
@@ -35,13 +33,13 @@ gulp.task('sass', function() {
 
   if (env === 'production') {
     config.outputStyle = 'compressed';
-  };
+  }
 
   if (env === 'development') {
-      config.onError = function(e) { console.log(e); }
+      config.onError = function(e) { console.log(e); };
       config.sourceMap = 'sass';
       //config.sourceComments = 'map';
-  };
+  }
 
   return gulp.src('src/sass/main.scss')
     .pipe(sass(config))
@@ -50,29 +48,45 @@ gulp.task('sass', function() {
 });
 
 gulp.task('js', function() {
+  function browserifyShare(){
+    var b = new browserify({
+      cache: {},
+      packageCache: {},
+      fullPaths: true,
+      debug: true
+    });
 
-  var b = new browserify({
-    debug:true
-  });
+    b = watchify(b);
+    b.on('update', function(){
+      bundleShare(b);
+    });
 
-  b.add('./src/js/main.js');
+    b.add('./src/js/main.js');
 
-  b.plugin('minifyify', {
-    map: '/bundle.map',
-    minify: true,
-    output: outputDir+'/bundle.map'
-  });
+    b.plugin('minifyify', {
+      map: '/bundle.map',
+      minify: true,
+      output: outputDir+'/bundle.map'
+    });
 
-  //return b()
-  return b.bundle()
-    .pipe(source('bundle.js'))
-    //.pipe(streamify(uglify()))
-    .pipe(gulp.dest(outputDir + '/js'))
-    .pipe(connect.reload());
+    bundleShare(b);
+  }
+
+  function bundleShare(b) {
+    b.bundle()
+      .pipe(source('bundle.js'))
+      .pipe(gulp.dest(outputDir + '/js'))
+      .pipe(connect.reload());
+  }
+  console.log('перед share');
+  browserifyShare();
 });
 
 gulp.task('lint', function() {
-    gulp.src('./src/js/**/*.js')
+  console.log('lint task');
+    var files = ['./src/js/**/*.js'];
+    files.push('./gulpfile.js');
+    gulp.src(files)
       .pipe(jshint('.jshintrc'))
       .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -83,14 +97,12 @@ gulp.task('jasmine', function () {
       .pipe(jasmine());
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['js'], function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
   gulp.watch('src/js/views/**/*.jade', ['jadeAngularTmpl']);
-  gulp.watch('src/js/**/*.js', ['js']);
-  gulp.watch('src/js/**/*.js', ['lint']);
-  gulp.watch('src/js/**/*.js', ['jasmine']);
+  gulp.watch(['src/js/**/*.js','builds/development/js/bundle.js'], ['lint']);
   gulp.watch('src/sass/**/*.scss', ['sass']);
-  gulp.watch('tests/*.js', ['jasmine']);
+  //gulp.watch(['src/js/**/*.js','tests/*.js'], ['jasmine']);
 });
 
 gulp.task('connect', function() {
@@ -101,4 +113,4 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('default', ['jade', 'jadeAngularTmpl', 'js', 'sass', 'watch', 'lint', 'jasmine', 'connect']);
+gulp.task('default', ['jade', 'jadeAngularTmpl', 'js', 'lint', /*'jasmine',*/ 'sass', 'watch',  'connect']);
