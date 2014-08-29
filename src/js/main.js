@@ -5,7 +5,8 @@ var sayHello = require('./modules/say-hello'),
     angular = require('angular'),
     uiRouter = require('angular-ui-router'),
     ngResource = require('npm-angular-resource')(window,angular),
-    mainCtrl = require('./controllers/mainCtrl'),
+    findById = require('./controllers/findbyid'),
+    //findByClan = require('./controllers/findbyclan'),
     rest = require('./services/rest');
 
 console.log(sayHello.greetings('Max P.'));
@@ -15,18 +16,18 @@ var app = angular.module('offlined', ['ngResource', uiRouter, rest]);
 // from asker
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise('/home');
+  $urlRouterProvider.otherwise('/find/byid');
 
   $stateProvider
-    .state('home', {
-        url: '/home',
-        templateUrl: '/js/views/home/home.html',
-        controller: 'mainCtrl'
+    .state('findbyid', {
+        url: '/find/byid',
+        templateUrl: '/js/views/find/byid.html',
+        controller: 'findById'
     })
     .state('step-100-choose-friends', {
-        url: '/step-100-choose-friends',
-        templateUrl: '/js/views/steps/step-100-choose-friends.html',
-        controller: 'Step100Ctrl'
+        url: '/find/byclan',
+        templateUrl: '/js/views/find/byclan.html',
+        controller: 'findByClan'
     });
 }]);
 
@@ -35,6 +36,6 @@ app.run(['$rootScope','$rest', function ($rootScope, $rest) {
   $rootScope.root = $rootScope;
 }]);
 
-app.controller('mainCtrl', ['$scope', mainCtrl]);
+app.controller('findById', ['$scope', findById/*, findByClan*/]);
 
-//console.log('FIRE FIRE FIRE' + $);
+console.log('jquery: ' + $);
