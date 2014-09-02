@@ -2,18 +2,16 @@
 
 exports.inject = function(app) {
 
-  //require('./../services/rest').inject(app);
+  require('./../services/rest').inject(app);
   app.controller('findById', exports.controller);
 
   return exports.controller;
 };
 
-
-
 exports.controller = ['$scope', '$rest', function findById($scope, $rest) {
 
-    $scope.testVar = 'Поиск по ID';
     $scope.player = {};
+    $scope.player.name = 'Vasya';
     $scope.player.selectedQHlevel = 1;
 
     $scope.player.qhlevels = [1,2,3,4,5,6,7,8,9,10];
@@ -31,7 +29,8 @@ exports.controller = ['$scope', '$rest', function findById($scope, $rest) {
 
     $scope.player.findById = function(id) {
       console.log(id);
-      $scope.restTest();
+      var a = $rest.qq('get json');
+      console.log(a);
     };
 
     function next(data) {
@@ -39,10 +38,8 @@ exports.controller = ['$scope', '$rest', function findById($scope, $rest) {
     }
 
     $scope.restTest = function() {
-      console.log($rest.qq());
+
       //$scope.$rest.commentators.load({}).$promise.then(next);
     };
 
 }];
-
-  //.controller('findById', ['$scope','$rest', function($scope, $rest) {

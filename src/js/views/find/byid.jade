@@ -1,5 +1,3 @@
-//- top menu partial?
-
 .row
   .col-md-12
     h4 Поиск Игроков
@@ -33,3 +31,35 @@
 .row
   .col-md-2
     button.btn.btn-success(ng-click="player.findById(player.name)") Искать
+
+.row
+  .col-md-3.col-md-offset-1 Результат
+  .col-md-2.col-md-offset-6 {count} строк
+.row
+  .col-md-12
+    table.table.table-striped.table-bordered
+      thead
+        tr
+          th N
+          th ID
+          th Name
+          th HQ lvl
+          th Rating
+      tbody
+        tr
+          td 1
+          td p.id
+          td p.name
+          td p.hqlvl
+          td p.rating
+        tr
+          td 2
+          td p.id
+          td p.name
+          td p.hqlvl
+          td p.rating
+      //- tr(ng-repeat="p in player.players")
+      //-   td {{p.id}}
+      //-   td {{p.name}}
+      //-   td {{p.hqlvl}}
+      //-   td {{p.rating}}

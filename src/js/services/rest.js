@@ -1,7 +1,7 @@
 'use strict';
 
 exports.inject = function(app) {
-  app.factory('rest', exports.factory);
+  app.factory('$rest', exports.factory);
   return exports.factory;
 };
 
@@ -29,12 +29,11 @@ exports.inject = function(app) {
 //};
 
 exports.factory = function() {
-  var monkey = 'Strawberry';
   var rest = {};
 
-  rest.getYourStuff = function() {
-    return monkey;
-  };
+    rest.qq = function(str) {
+      return '$rest ' + str;
+    };
 
-  return rest;
+    return rest;
 };

@@ -47,6 +47,11 @@ gulp.task('sass', function() {
     .pipe(connect.reload());
 });
 
+gulp.task('copyToBuild', function() {
+  return gulp.src('src/vendor/css/bootstrap.min.css')
+    .pipe(gulp.dest(outputDir + '/css'));
+});
+
 gulp.task('js', function() {
 
   function browserifyShare(){
@@ -117,5 +122,5 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('build', ['jade', 'jadeAngularTmpl', 'js', 'lint', 'jasmine', 'sass', 'watch',  'connect']);
+gulp.task('build', ['jade', 'jadeAngularTmpl', 'js', 'lint', 'jasmine', 'sass', 'watch',  'connect', 'copyToBuild']);
 gulp.task('default', ['jade', 'jadeAngularTmpl', 'sass', 'watch',  'connect']);
