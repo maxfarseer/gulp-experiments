@@ -2,12 +2,21 @@ doctype html
 html(ng-app="offlined")
   head
     title Gulp experiments
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    link(rel="stylesheet" href="css/bootstrap.min.css")
     link(rel="stylesheet", href="css/main.css")
   body
 
     div.container.padmin
       header
+        nav.navbar.navbar-inverse(role='navigation')
+          .navbar-header
+              a.navbar-brand(ui-sref='#') Pirates admin
+            ul.nav.navbar-nav
+              li
+                a(ui-sref='findbyid') Поиск по ID
+              li
+                a(ui-sref='findbyclan') Поиск по Clan ID
+
       div(ui-view)
       footer
 

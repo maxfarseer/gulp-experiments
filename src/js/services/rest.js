@@ -1,10 +1,13 @@
 'use strict';
 
-var angular = require('angular');
+exports.inject = function(app) {
+  app.factory('rest', exports.factory);
+  return exports.factory;
+};
 
-module.exports = function() {
+//exports.factory = function() {
 
-  angular.module('offlined')
+  /*angular.module('offlined')
   .factory('$rest', ['$resource', function ($resource) {
 
     //var root = 'http://localhost:8888/asker/';
@@ -21,8 +24,17 @@ module.exports = function() {
 
     return rest;
   }])
-  ;
+  ;*/
 
+//};
+
+exports.factory = function() {
+  var monkey = 'Strawberry';
+  var rest = {};
+
+  rest.getYourStuff = function() {
+    return monkey;
+  };
+
+  return rest;
 };
-
-
