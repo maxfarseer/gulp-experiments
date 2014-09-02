@@ -25,6 +25,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     url: '/find/byclan',
     templateUrl: '/js/views/find/byclan.html',
     controller: require('./controllers/findbyclan').inject(app)
+  })
+  .state('balance', {
+    url: '/balance',
+    templateUrl: '/js/views/balance.html',
+    controller: require('./controllers/balance').inject(app)
   });
 }]);
 
