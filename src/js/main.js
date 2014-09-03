@@ -26,6 +26,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     templateUrl: '/js/views/find/byclan.html',
     controller: require('./controllers/findbyclan').inject(app)
   })
+  .state('playerprofile', {
+    url: '/find/playerprofile',
+    templateUrl: '/js/views/profile/player.html',
+    controller: require('./controllers/profile/player').inject(app)
+  })
+  .state('clanprofile', {
+    url: '/find/clanprofile',
+    templateUrl: '/js/views/profile/clan.html',
+    controller: require('./controllers/profile/clan').inject(app)
+  })
   .state('balance', {
     url: '/balance',
     templateUrl: '/js/views/balance.html',
