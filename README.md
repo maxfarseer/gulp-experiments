@@ -16,6 +16,7 @@ Resourses
 - [Watchify with other Gulp watch tasks]
 - [Fast browserify builds with watchify]
 - [Начинаем работать с browserify] by Habrahabr
+- [require('./path/to/module).inject(app)] by Stef van den Ham
 
 [Gulp]:http://gulpjs.com/
 [Browserify]:http://browserify.org/
@@ -24,3 +25,4 @@ Resourses
 [minifyify]:https://www.npmjs.org/package/minifyify
 [Fast browserify builds with watchify]:https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md
 [Начинаем работать с browserify]:http://habrahabr.ru/post/224825/
+[require('./path/to/module).inject(app)]:http://mindthecode.com/writing-browserify-modules-for-your-angular-app/
