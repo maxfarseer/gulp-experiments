@@ -12,7 +12,8 @@ exports.controller = ['$scope', '$rest', function findById($scope, $rest) {
 
     $scope.player = {};
     $scope.player.name = 'Vasya';
-    $scope.player.selectedQHlevel = 1;
+    $scope.player.qhLvl = 1;
+    $scope.player.limit = 50;
 
     $scope.player.qhlevels = [1,2,3,4,5,6,7,8,9,10];
 
@@ -27,19 +28,24 @@ exports.controller = ['$scope', '$rest', function findById($scope, $rest) {
       to: new Date()
     };
 
-    $scope.player.findById = function(id) {
-      console.log(id);
-      var a = $rest.qq('get json');
-      console.log(a);
-    };
+    //signalR init
+    $.connection.hub.start().done(function () {
+      // сделать доступными элементы интерфейса после init
+      console.log('SignalR ready');
+    }).fail(function () {
+      console.log('signalR failed');
+    });
 
-    function next(data) {
-      $scope.commentators = data.result;
-    }
+    $scope.getUsers = function(params) {
+      var Admin = $.connection.AdminHub.server,
+          p = params;
 
-    $scope.restTest = function() {
+      Admin.SearchUsers(p.name,p.qhLvl, p.rating.from, p.rating.to, p.installDate.from, p.installDate.to, p.limit)
+        .done(function(result){
 
-      //$scope.$rest.commentators.load({}).$promise.then(next);
+          $scope.allPlayers = result;
+          $scope.$apply();
+        });
     };
 
 }];

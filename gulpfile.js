@@ -11,7 +11,8 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     jasmine = require('gulp-jasmine');
 
-var outputDir = 'builds/development',
+var //outputDir = 'builds/development',
+    outputDir = '/Users/user/developments/local/padmin/Cluster.Admin/web',
     env = process.env.NODE_ENV || 'development';
 
 gulp.task('jade', function() {
@@ -93,7 +94,10 @@ gulp.task('js', function() {
 });
 
 gulp.task('lint', function() {
-    var files = ['./src/js/**/*.js'];
+    var files = [
+      './src/js/**/*.js',
+      '!./src/js/modules/signalr.js'
+    ];
     files.push('./gulpfile.js');
     return gulp.src(files)
       .pipe(jshint('.jshintrc'))
@@ -109,7 +113,7 @@ gulp.task('jasmine', function () {
 gulp.task('watch', ['js'], function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
   gulp.watch('src/js/views/**/*.jade', ['jadeAngularTmpl']);
-  gulp.watch('builds/development/js/bundle.js', ['lint']);
+  gulp.watch(outputDir+'/js/bundle.js', ['lint']);
   gulp.watch('src/sass/**/*.scss', ['sass']);
   //gulp.watch(['src/js/**/*.js','tests/*.js'], ['jasmine']);
 });

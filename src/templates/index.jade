@@ -1,7 +1,7 @@
 doctype html
 html(ng-app="offlined")
   head
-    title Gulp experiments
+    title Pirates Admin
     link(rel="stylesheet" href="css/bootstrap.min.css")
     link(rel="stylesheet", href="css/main.css")
   body
@@ -25,5 +25,9 @@ html(ng-app="offlined")
 
       div(ui-view)
       footer
+
+    script(src='js/lib/jquery-2.1.1.min.js')
+    script(src="Scripts/jquery.signalR-2.1.1.min.js")
+    script(src="/signalr/hubs")
 
     script(src="js/bundle.js")

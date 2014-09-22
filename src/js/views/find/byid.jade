@@ -10,7 +10,7 @@
 .row
   .col-md-2 QH level
   .col-md-4
-    select(ng-model="player.selectedQHlevel", ng-options="qhlevel for qhlevel in player.qhlevels")
+    select(ng-model="player.qhLvl", ng-options="qhlevel for qhlevel in player.qhlevels")
 
 .row
   .col-md-2 Rating from
@@ -29,37 +29,32 @@
     input(ng-model="player.installDate.to")
 
 .row
+  .col-md-2 Limit
+  .col-md-4
+    input(ng-model="player.limit")
+
+.row
   .col-md-2
-    button.btn.btn-success(ng-click="player.findById(player.name)") Искать
+    button.btn.btn-success(ng-click="getUsers(player)") Искать
 
 .row
   .col-md-3.col-md-offset-1 Результат
-  .col-md-2.col-md-offset-6 {count} строк
+  .col-md-2.col-md-offset-6 Игроков: {{allPlayers.length}}
 .row
   .col-md-12
     table.table.table-striped.table-bordered
       thead
         tr
-          th N
           th ID
           th Name
-          th HQ lvl
           th Rating
+          th QH Level
+          th Install Date
       tbody
-        tr
-          td 1
-          td p.id
-          td p.name
-          td p.hqlvl
-          td p.rating
-        tr
-          td 2
-          td p.id
-          td p.name
-          td p.hqlvl
-          td p.rating
-      //- tr(ng-repeat="p in player.players")
-      //-   td {{p.id}}
-      //-   td {{p.name}}
-      //-   td {{p.hqlvl}}
-      //-   td {{p.rating}}
+        tr(ng-repeat="p in allPlayers")
+          td {{p.id}}
+          td {{p.name}}
+          td {{p.rating}}
+          td {{p.thLevel}}
+          td {{p.installDate | date:short}}
+
