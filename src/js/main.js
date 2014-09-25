@@ -35,9 +35,11 @@ app.run(['$rootScope','$rest','$resource', function ($rootScope, $rest) {
 
 }]);
 
-
-/*app.directive('jquery', function() {
-    return {
-      template: 'Name: {{customer.name}} Address: {{customer.address}}'
-    };
-  });*/
+/*app.directive('myCustomer', function() {
+  return {
+    restrict: 'AE',
+    template: 'Name: {{customer.name}} Address: {{customer.address}}'
+  };
+});*/
+app.directive('myCustomerTwo',require('./directives/my-customer-two'));
+app.directive('myJquery',require('./directives/my-jquery'));
