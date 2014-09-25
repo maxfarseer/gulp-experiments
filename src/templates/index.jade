@@ -1,7 +1,7 @@
 doctype html
 html(ng-app="offlined")
   head
-    title Pirates Admin
+    title Pack
     link(rel="stylesheet" href="css/bootstrap.min.css")
     link(rel="stylesheet", href="css/main.css")
   body
@@ -10,24 +10,16 @@ html(ng-app="offlined")
       header
         nav.navbar.navbar-inverse(role='navigation')
           .navbar-header
-              a.navbar-brand(ui-sref='#') Pirates admin
+              a.navbar-brand(ui-sref='home') Pack
             ul.nav.navbar-nav
               li
-                a(ui-sref='findbyid') Поиск по ID
+                a(ui-sref='home') Home
               li
-                a(ui-sref='playerprofile') Профиль игрока
-              li
-                a(ui-sref='findbyclan') Поиск по Clan ID
-              li
-                a(ui-sref='clanprofile') Профиль клана
-              li
-                a(ui-sref='balance') Баланс
+                a(ui-sref='data') Data
 
       div(ui-view)
       footer
 
-    script(src='js/lib/jquery-2.1.1.min.js')
-    script(src="Scripts/jquery.signalR-2.1.1.min.js")
-    script(src="/signalr/hubs")
+    //- script(src='js/lib/jquery-2.1.1.min.js')
 
     script(src="js/bundle.js")

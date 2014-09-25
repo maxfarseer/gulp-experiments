@@ -1,10 +1,8 @@
 'use strict';
 
-
 exports.inject = function(app) {
-
-  app.factory('$rest', exports.factory);
-  return exports.factory;
+  app.directive('myCustomer', exports.directive);
+  return exports.directive;
 };
 
 //exports.factory = function() {
@@ -30,21 +28,8 @@ exports.inject = function(app) {
 
 //};
 
-exports.factory = ['$resource', function($resource) {
-    var rest = {
-      test: $resource('http://api.openweathermap.org/data/2.5/weather?q=London,uk', {}, {
-        load: {method: 'GET'}
-      })
+exports.directive = function() {
+    return {
+      template: 'Name: {{customer.name}} Address: {{customer.address}}'
     };
-
-    return rest;
-}];
-
-/*exports.factory = function() {
-
-    var rest = {
-      test: console.log('qq')
-    };
-
-    return rest;
-};*/
+  };

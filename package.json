@@ -20,7 +20,8 @@
     "npm-angular-resource": "^1.3.0-build.2880",
     "minifyify": "^4.1.1",
     "watchify": "^1.0.2",
-    "gulp-watch": "^0.6.9"
+    "gulp-watch": "^0.6.9",
+    "gulp-rimraf": "^0.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

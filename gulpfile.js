@@ -1,7 +1,7 @@
 'use strict';
 
 var gulp = require('gulp'),
-    //watch = require('gulp-watch'),
+    rimraf = require('gulp-rimraf'),
     jade = require('gulp-jade'),
     sass = require('gulp-sass'),
     jshint = require('gulp-jshint'),
@@ -11,8 +11,7 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     jasmine = require('gulp-jasmine');
 
-var //outputDir = 'builds/development',
-    outputDir = '/Users/user/developments/local/padmin/Cluster.Admin/web',
+var outputDir = 'builds/development',
     env = process.env.NODE_ENV || 'development';
 
 gulp.task('jade', function() {
@@ -124,6 +123,11 @@ gulp.task('connect', function() {
     port: 8001,
     livereload: true
   });
+});
+
+gulp.task('deleteOldBuild', function () {
+  return gulp.src('./'+outputDir, { read: false }) // much faster
+    .pipe(rimraf());
 });
 
 gulp.task('build', ['jade', 'jadeAngularTmpl', 'js', 'lint', 'jasmine', 'sass', 'watch',  'connect', 'copyToBuild']);
