@@ -8,7 +8,10 @@ var sayHello = require('./modules/say-hello'),
     ngResource = require('npm-angular-resource')(window,angular);
 
 var app = angular.module('offlined', [uiRouter, 'ngResource']);
+
+//inject services
 require('./services/rest').inject(app);
+
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
@@ -24,7 +27,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   .state('data', {
     url: '/data',
     templateUrl: '/js/views/data.html',
-    controller: require('./controllers/data').inject(app)
+    controller: require('./controllers/data').inject(app),
+    controllerAs: 'data'
   });
 
 }]);
@@ -32,14 +36,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 app.run(['$rootScope','$rest','$resource', function ($rootScope, $rest) {
   $rootScope.$rest = $rest;
   $rootScope.root = $rootScope;
-
 }]);
 
-/*app.directive('myCustomer', function() {
-  return {
-    restrict: 'AE',
-    template: 'Name: {{customer.name}} Address: {{customer.address}}'
-  };
-});*/
+//additional directives
 app.directive('myCustomerTwo',require('./directives/my-customer-two'));
 app.directive('myJquery',require('./directives/my-jquery'));
