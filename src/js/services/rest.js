@@ -1,12 +1,9 @@
 'use strict';
-
-exports.inject = function(app) {
-  app.factory('$rest', exports.factory);
-  return exports.factory;
-};
-
-exports.factory = ['$resource', function($resource) {
-    var rest = {
+/**
+ * @ngInject
+ */
+function restService($resource) {
+  var rest = {
       test: $resource('http://api.openweathermap.org/data/2.5/weather?q=London,uk', {}, {
         load: {method: 'GET'}
       }),
@@ -15,5 +12,8 @@ exports.factory = ['$resource', function($resource) {
       })
     };
 
-    return rest;
-}];
+  return rest;
+}
+
+angular.module('app')
+  .factory('restService',restService);

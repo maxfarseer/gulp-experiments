@@ -1,7 +1,7 @@
 doctype html
-html(ng-app="offlined")
+html(ng-app="app")
   head
-    title Pack
+    title App
     link(rel="stylesheet" href="css/bootstrap.min.css")
     link(rel="stylesheet", href="css/main.css")
   body
@@ -20,4 +20,22 @@ html(ng-app="offlined")
       div(ui-view)
       footer
 
-    script(src="js/bundle.js")
+    //- dev libs
+    //- script(src='../../bower_components/jquery/dist/jquery.js')
+    //- script(src='../../bower_components/angular/angular.js')
+    //- script(src='../../bower_components/angular-resource/angular-resource.js')
+    //- script(src='../../bower_components/ui-router/release/angular-ui-router.js')
+
+    //- dev angular
+
+    //- script(src='../../src/js/main.js')
+
+    //- script(src='../../src/js/services/rest.js')
+
+    //- script(src='../../src/js/controllers/home.js')
+    //- script(src='../../src/js/controllers/data.js')
+
+    //- script(src='../../src/js/directives/my-customer.js')
+
+    script(src='../../builds/development/js/libs.js')
+    script(src='../../builds/development/js/scripts.js')

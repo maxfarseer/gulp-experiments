@@ -19,5 +19,10 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "jquery": true
+  "validthis": true,
+  "globals": {
+    "$":false,
+    "angular":false,
+    "_":false
+  }
 }

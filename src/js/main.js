@@ -1,43 +1,41 @@
 'use strict';
-/*jshint -W079 */
 
-var sayHello = require('./modules/say-hello'),
-    $ = require('jquery'),
-    angular = require('angular'),
-    uiRouter = require('angular-ui-router'),
-    ngResource = require('npm-angular-resource')(window,angular);
+var outputDir = '../../builds/development';
 
-var app = angular.module('offlined', [uiRouter, 'ngResource']);
-
-//inject services
-require('./services/rest').inject(app);
-
-
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
+/**
+ * @ngInject
+ */
+function config($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/home');
 
   $stateProvider
   .state('home', {
     url: '/home',
-    templateUrl: '/js/views/home.html',
-    controller: require('./controllers/home').inject(app),
+    templateUrl: outputDir + '/js/views/home.html',
+    controller: 'homeCtrl',
     controllerAs: 'home'
   })
   .state('data', {
     url: '/data',
-    templateUrl: '/js/views/data.html',
-    controller: require('./controllers/data').inject(app),
+    templateUrl: outputDir + '/js/views/data.html',
+    controller: 'dataCtrl',
     controllerAs: 'data'
   });
+}
 
-}]);
-
-app.run(['$rootScope','$rest','$resource', function ($rootScope, $rest) {
-  $rootScope.$rest = $rest;
+/**
+ * @ngInject
+ */
+function run($rootScope, restService) {
+  $rootScope.restService = restService;
   $rootScope.root = $rootScope;
-}]);
+}
+
+angular.module('app', ['ui.router', 'ngResource'])
+  .config(config)
+  .run(run)
+  ;
 
 //additional directives
-app.directive('myCustomerTwo',require('./directives/my-customer-two'));
-app.directive('myJquery',require('./directives/my-jquery'));
+//app.directive('myCustomerTwo',require('./directives/my-customer-two'));
+//app.directive('myJquery',require('./directives/my-jquery'));

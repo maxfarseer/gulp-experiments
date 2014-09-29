@@ -2,12 +2,14 @@
 
 var gulp = require('gulp'),
     rimraf = require('gulp-rimraf'),
+    uglify = require('gulp-uglify'),
+    concat = require('gulp-concat'),
+    sourcemaps = require('gulp-sourcemaps'),
+    ngAnnotate = require('gulp-ng-annotate'),
+    changed = require('gulp-changed'),
     jade = require('gulp-jade'),
     sass = require('gulp-sass'),
     jshint = require('gulp-jshint'),
-    browserify = require('browserify'),
-    watchify = require('watchify'),
-    source = require('vinyl-source-stream'),
     connect = require('gulp-connect'),
     jasmine = require('gulp-jasmine');
 
@@ -47,55 +49,41 @@ gulp.task('sass', function() {
     .pipe(connect.reload());
 });
 
-gulp.task('copyToBuild', function() {
-  return gulp.src('src/vendor/css/bootstrap.min.css')
-    .pipe(gulp.dest(outputDir + '/css'));
+gulp.task('js', function() {
+  return gulp.src([
+      'src/js/**/*.js',
+    ])
+    .pipe(connect.reload());
 });
 
-gulp.task('js', function() {
+gulp.task('compress', function() {
+  gulp.src(['./src/js/**/*.js'])
+    .pipe(changed(outputDir + '/js'))
+    .pipe(sourcemaps.init())
+    .pipe(concat('scripts.js'))
+    .pipe(ngAnnotate())
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(outputDir + '/js'));
+});
 
-  function browserifyShare(){
-
-    var b = new browserify({
-      entries: './src/js/main.js',
-      debug: true,
-      cache: {},
-      packageCache: {},
-      fullPaths: true
-    });
-
-    b = watchify(b);
-    b.on('update', function(){
-      bundleShare(b);
-    });
-
-    //b.add('./src/js/main.js');
-
-    if (env === 'production') {
-      b.plugin('minifyify', {
-        map: '/bundle.js.map',
-        minify: true,
-        output: outputDir+'/bundle.js.map'
-      });
-    }
-
-    bundleShare(b);
-  }
-
-  function bundleShare(b) {
-    b.bundle()
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest(outputDir + '/js'))
-      .pipe(connect.reload());
-  }
-
-  return browserifyShare();
+gulp.task('compress:libs', function() {
+  gulp.src([
+    'bower_components/jquery/dist/jquery.js',
+    'bower_components/lodash/dist/lodash.js',
+    'bower_components/angular/angular.js',
+    'bower_components/angular-resource/angular-resource.js',
+    'bower_components/ui-router/release/angular-ui-router.js'
+    ])
+    .pipe(concat('libs.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(outputDir + '/js'));
 });
 
 gulp.task('lint', function() {
     var files = [
       './src/js/**/*.js',
-      '!./src/js/modules/signalr.js'
+      //'!./src/js/modules/signalr.js' - sample NOT
     ];
     files.push('./gulpfile.js');
     return gulp.src(files)
@@ -109,17 +97,22 @@ gulp.task('jasmine', function () {
       .pipe(jasmine());
 });
 
-gulp.task('watch', ['js'], function() {
+gulp.task('watch', function() {
   gulp.watch('src/templates/**/*.jade', ['jade']);
+  gulp.watch('src/js/**/*.js', ['js','lint', 'compress']);
   gulp.watch('src/js/views/**/*.jade', ['jadeAngularTmpl']);
-  gulp.watch(outputDir+'/js/bundle.js', ['lint']);
   gulp.watch('src/sass/**/*.scss', ['sass']);
   //gulp.watch(['src/js/**/*.js','tests/*.js'], ['jasmine']);
 });
 
+gulp.task('copyToBuild:bootstrap', function() {
+  return gulp.src('src/vendor/css/bootstrap.min.css')
+    .pipe(gulp.dest(outputDir + '/css'));
+});
+
 gulp.task('connect', function() {
   connect.server({
-    root: outputDir,
+    //root: outputDir,
     port: 8001,
     livereload: true
   });
@@ -130,5 +123,4 @@ gulp.task('deleteOldBuild', function () {
     .pipe(rimraf());
 });
 
-gulp.task('build', ['jade', 'jadeAngularTmpl', 'js', 'lint', 'jasmine', 'sass', 'watch',  'connect', 'copyToBuild']);
 gulp.task('default', ['jade', 'jadeAngularTmpl', 'sass', 'watch',  'connect']);
